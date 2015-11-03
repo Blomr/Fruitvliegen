@@ -1,0 +1,62 @@
+Pseudocode
+
+vlieg a = string
+vlieg b = string
+
+while vliega != vliegb:
+
+x = random t/m 26 - maximale swapgrootte
+y = random + swapgrootte
+
+if x of y is in genengoed
+nog een keer random?
+
+[0:4] zijn de eerste 4 genen
+
+
+als x = 0
+''.join(reversed(vliegb[x:y])) + vliegb[y+1:] (geen idee of dit klopt of mag met strings)
+mutatie++
+
+
+als x != 0
+
+vliegb[:x=1] + ''.join(reversed(vliegb[x:y])) + vliegb[y+:]
+mutatie++
+
+volledige strcmp wordt gedaan door while loop?
+
+substring controleren?
+
+for (lengte string)
+check of plaats van character matcht
+
+array genengoed = [26]
+
+if vliega[i] == vliegb[i]
+match++
+index i toevoegen aan array van nummers die goed staan
+nummersgoed[i] = i
+
+dan de nummers die goed staan niet meer meenemen in verplaatsingen
+dus in nummersgoed zitten de indexen die goed staan. die kunnen dus uit beide strings weg.
+
+hoe verwijder je bepaalde indices uit de string? want als je 1 indice verwijdert dan verandert het voor de rest ook! Van achter naar voren werken.
+
+dan zullen we alleen nog maar de niet kloppende delen vergelijken om tijd te besparen
+
+1234567890
+0984562173
+
+456 matcht
+dat kunnen we uit de string mikken
+wat we nu goed willen zetten is
+1237890
+0982173
+
+vliega = re.sub('[alleswatinarraygoedegenenzit]', '', vliega)
+vliegb = re.sub('[alleswatinarraygoedegenenzit]', '', vliegb)
+
+en hier dan mee verder werken
+daar gaan we dus weer random swaps op uitvoeren, maar dit keer is de berekening wel anders qua uitkomst, omdat de lengte van de string is veranderd
+
