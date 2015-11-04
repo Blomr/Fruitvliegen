@@ -8,7 +8,16 @@
 melano = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
 swaps = 0
 
-#iterate over all numbers
+i = 0
+done = False 
+while done == False:
+#i != 12:
+	melano[i:melano.index(i + 1) + 1] = reversed(melano[i:melano.index(i + 1) + 1])
+	
+	melano[melano.index(25 - i):25 - i] = reversed(melano[melano.index(25 - i):25 - i])
+
+
+"""#iterate over all numbers
 for i in range(len(melano)):
 	print "Replace: " + str(i + 1)
 
@@ -23,4 +32,4 @@ for i in range(len(melano)):
 	swaps = swaps + 1
 	print str(melano) + "\n"
 	
-print "---> Swaps: " + str(swaps)
+print "---> Swaps: " + str(swaps)"""

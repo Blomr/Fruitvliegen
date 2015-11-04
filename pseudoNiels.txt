@@ -1,0 +1,12 @@
+create list containing melano's gens
+create empty list for miranda size of melano's list
+
+while miranda is not full (last element is not None)
+    look for lowest number
+        see if the next number is one gen bigger and the one after that...
+        copy that part of melanos list in the beginning of miranda's list
+        do this for the next necessary number in miranda's list as well until it is full
+        count every step
+        
+print the list and the steps taken
+        
