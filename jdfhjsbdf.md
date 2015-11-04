@@ -1,2 +1,0 @@
-# Heuristieken
-Heuristieken opdracht fruitvliegjes
