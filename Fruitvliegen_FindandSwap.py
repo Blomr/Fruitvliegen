@@ -10,15 +10,17 @@ swaps = 0
 
 #iterate over all numbers
 for i in range(len(melano)):
+	print "Replace: " + str(i + 1)
 
 	# if number is already in position, continue
 	if i + 1 == melano[i]:
-		print "NO SWAP!"
+		print "NO SWAP!\n"
 		continue
 		
 	# if not, swap part of the list
+	print "Swap length: " + str(len(melano[i:melano.index(i + 1) + 1]))
 	melano[i:melano.index(i + 1) + 1] = reversed(melano[i:melano.index(i + 1) + 1])
 	swaps = swaps + 1
-	print melano
+	print str(melano) + "\n"
 	
-print "swaps: " + str(swaps)
+print "---> Swaps: " + str(swaps)
