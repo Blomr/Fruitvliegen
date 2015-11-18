@@ -10,17 +10,22 @@ counter = 0
 lowest = 0
 highest = 25
 
+# swap till fully sorted
 while melano != miranda:
 
+	# if lowest number is in place, add 1 to lowest
 	if melano[lowest] == lowest + 1:
 		lowest = lowest + 1
 		
+	# if highest number is in place, subtract 1 from highest
 	if melano[highest - 1] == highest:
 		highest = highest - 1
 
+	# determine swaplength
 	j = randint(lowest,highest - 2)
 	k = randint(j + 2, highest)
 
+	# do swap, add 1 to counter
 	print "Swap #" + str(counter + 1)
 	print "Swap length: " + str(len(melano[j:k]))
 	melano[j:k] = reversed(melano[j:k])
