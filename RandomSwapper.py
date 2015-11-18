@@ -9,6 +9,15 @@ miranda = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
 counter = 0
 lowest = 0
 highest = 25
+totalManDist = 0
+
+print "\n" + "Start: " + str(melano)
+
+# determine total manhattan distance of numbers
+for a in range(len(melano)):
+	totalManDist += abs(melano.index(a + 1) - a)
+
+print "Total Manhattan Distance: " + str(totalManDist) + "\n"
 
 # swap till fully sorted
 while melano != miranda:

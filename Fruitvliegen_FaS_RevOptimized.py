@@ -5,9 +5,19 @@
 melano = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
 swaps = 0
 swapLengthTotal = 0
-lowestNumber = 1
+lowestNumber = min(melano)
+highestNumber = max(melano)
+totalManDist = 0
 
-#iterate over all numbers (from 24 to 0)
+print "\n" + "Start: " + str(melano)
+
+# determine total manhattan distance of numbers
+for a in range(len(melano)):
+	totalManDist += abs(melano.index(a + 1) - a)
+
+print "Total Manhattan Distance: " + str(totalManDist) + "\n"
+
+# iterate over all numbers (from 24 to 0)
 for i in range(len(melano) - 1, -1, -1):
 
 	if melano[melano.index(lowestNumber) - 1] == lowestNumber + 1:
@@ -19,7 +29,7 @@ for i in range(len(melano) - 1, -1, -1):
 		print str(melano) + "\n"
 		
 		while melano.index(lowestNumber) == lowestNumber - 1:
-			if lowestNumber == 25:
+			if lowestNumber == highestNumber:
 				break
 			lowestNumber = lowestNumber + 1
 		

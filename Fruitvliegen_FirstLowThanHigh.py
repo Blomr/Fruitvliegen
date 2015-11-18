@@ -8,6 +8,15 @@ swaps = 0
 i = 0
 swapLengthTotal = 0
 done = False 
+totalManDist = 0
+
+print "\n" + "Start: " + str(melano)
+
+# determine total manhattan distance of numbers
+for a in range(len(melano)):
+	totalManDist += abs(melano.index(a + 1) - a)
+
+print "Total Manhattan Distance: " + str(totalManDist) + "\n"
 
 while done == False:
 
