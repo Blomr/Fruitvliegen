@@ -21,6 +21,7 @@ for i in range(len(melano)):
 
 	noLast = []
 
+	# search for numbers that can't be the end of the swap
 	for j in range(len(melano)):
 		if j == 24:
 			break
@@ -33,6 +34,7 @@ for i in range(len(melano)):
 	
 	isOtherLast = False
 	
+	# if the last number in the swap is in noLast, take the next number as last number
 	last = i + 1
 	changeLast = 0
 	while last in noLast:
@@ -41,13 +43,14 @@ for i in range(len(melano)):
 		isOtherLast = True
 	
 		
-	# if not, swap part of the list
+	# swap part of the list
 	swapLengthTotal += len(melano[i:melano.index(last) + 1])
 	print "Swap length: " + str(len(melano[i:melano.index(last) + 1]))
 	melano[i:melano.index(last) + 1] = reversed(melano[i:melano.index(last) + 1])
 	swaps = swaps + 1
 	print str(melano) + "\n"
 	
+	# if last number is changed, do swap again to put numbers in the right place
 	if isOtherLast == True:
 		swapLengthTotal += len(melano[i:i + changeLast + 1])
 		print "Swap length: " + str(len(melano[i:i + changeLast + 1]))
