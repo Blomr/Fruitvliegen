@@ -8,11 +8,27 @@
 melano = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
 swaps = 0
 swapLengthTotal = 0
+highestNumber = 25
 
 #iterate over all numbers
 for i in range(len(melano)):
-	print "Replace: " + str(i + 1)
 
+
+	if melano[melano.index(highestNumber) + 1] == highestNumber - 1:
+		print "SHORTCUT SWAP!"
+		swapLengthTotal += len(melano[melano.index(highestNumber):highestNumber + 1])
+		print "Swap length: " + str(len(melano[melano.index(highestNumber):highestNumber + 1]))
+		melano[melano.index(highestNumber):highestNumber + 1] = reversed(melano[melano.index(highestNumber):highestNumber + 1])
+		swaps = swaps + 1
+		print str(melano) + "\n"
+		
+		while melano.index(highestNumber) == highestNumber - 1:
+			if highestNumber == 1:
+				break
+			highestNumber = highestNumber - 1
+			
+	print "Replace: " + str(i + 1)
+			
 	# if number is already in position, continue
 	if i + 1 == melano[i]:
 		print "NO SWAP!\n"
