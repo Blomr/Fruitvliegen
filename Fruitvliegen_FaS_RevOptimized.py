@@ -20,9 +20,11 @@ print "Total Manhattan Distance: " + str(totalManDist) + "\n"
 # iterate over all numbers (from 24 to 0)
 for i in range(len(melano) - 1, -1, -1):
 
-	if melano.index(lowestNumber) == lowestNumber - 1:
+	while melano.index(lowestNumber) == lowestNumber - 1:
 		if lowestNumber != highestNumber:
 			lowestNumber += 1
+		else:
+			break
 	if melano[melano.index(lowestNumber) - 1] == lowestNumber + 1:
 		print "SHORTCUT SWAP!"
 		swapLengthTotal += len(melano[lowestNumber - 1:melano.index(lowestNumber) + 1])
