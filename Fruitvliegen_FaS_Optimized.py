@@ -5,6 +5,7 @@
 # When it is found, it repeats the process except that 1 stays in place.
 # The algorithm is done when the whole array is sorted.
 
+
 melano = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
 swaps = 0
 swapLengthTotal = 0
@@ -24,23 +25,19 @@ print "Total Manhattan Distance: " + str(totalManDist) + "\n"
 for i in range(len(melano)):
 
 	while melano.index(highestNumber) == highestNumber - 1:
-		if highestNumber != lowestNumber:
-			highestNumber -= 1
-		else:
+		if highestNumber == lowestNumber:
 			break
+		highestNumber = highestNumber - 1
+		print highestNumber
+		
 	if melano[melano.index(highestNumber) + 1] == highestNumber - 1:
 		print "SHORTCUT SWAP!"
-		swapLengthTotal += len(melano[melano.index(highestNumber):highestNumber + 1])
-		print "Swap length: " + str(len(melano[melano.index(highestNumber):highestNumber + 1]))
-		melano[melano.index(highestNumber):highestNumber + 1] = reversed(melano[melano.index(highestNumber):highestNumber + 1])
+		swapLengthTotal += len(melano[melano.index(highestNumber):highestNumber])
+		print "Swap length: " + str(len(melano[melano.index(highestNumber):highestNumber]))
+		melano[melano.index(highestNumber):highestNumber] = reversed(melano[melano.index(highestNumber):highestNumber])
 		swaps = swaps + 1
 		print str(melano) + "\n"
-		
-		while melano.index(highestNumber) == highestNumber - 1:
-			if highestNumber == lowestNumber:
-				break
-			highestNumber = highestNumber - 1
-			
+
 	print "Replace: " + str(i + 1)
 			
 	# if number is already in position, continue
