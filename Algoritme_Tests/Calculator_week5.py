@@ -208,7 +208,7 @@ def FindAndSwapOptimized(genoom):
     lowestNumber = min(melano)
     highestNumber = max(melano)
     totalManDist = 0
-
+    
     # determine total manhattan distance of numbers
     for a in range(len(melano)):
 	    totalManDist += abs(melano.index(a + 1) - a)
@@ -216,26 +216,22 @@ def FindAndSwapOptimized(genoom):
     #iterate over all numbers
     for i in range(len(melano)):
 
-	    if melano.index(highestNumber) == highestNumber - 1:
-		    if highestNumber != lowestNumber:
-			    highestNumber -= 1
-	    
-	    if melano[melano.index(highestNumber) + 1] == highestNumber - 1:
-		    swapLengthTotal += len(melano[melano.index(highestNumber):highestNumber + 1])
-		    melano[melano.index(highestNumber):highestNumber + 1] = reversed(melano[melano.index(highestNumber):highestNumber + 1])
-		    swaps = swaps + 1
+	    while melano.index(highestNumber) == highestNumber - 1:
+		    if highestNumber == lowestNumber:
+			    break
+		    highestNumber = highestNumber - 1
 		
-		    while melano.index(highestNumber) == highestNumber - 1:
-			    if highestNumber == lowestNumber:
-				    break
-			    highestNumber = highestNumber - 1
-			
+	    if melano[melano.index(highestNumber) + 1] == highestNumber - 1:
+		    swapLengthTotal += len(melano[melano.index(highestNumber):highestNumber])
+		    melano[melano.index(highestNumber):highestNumber] = reversed(melano[melano.index(highestNumber):highestNumber])
+		    swaps = swaps + 1
+		    	
 	    # if number is already in position, continue
 	    if i + 1 != melano[i]:
 		    swapLengthTotal += len(melano[i:melano.index(i + 1) + 1])
 		    melano[i:melano.index(i + 1) + 1] = reversed(melano[i:melano.index(i + 1) + 1])
 		    swaps = swaps + 1
-		    
+		        
     # schrijf mutaties per genoom naar file
     file = open("mutaties_alg5.txt", "a")
     file.write(str(swaps) + "\r\n")
@@ -264,7 +260,7 @@ def FindAndSwapRevOptimized(genoom):
     lowestNumber = min(melano)
     highestNumber = max(melano)
     totalManDist = 0
-    
+
     # determine total manhattan distance of numbers
     for a in range(len(melano)):
 	    totalManDist += abs(melano.index(a + 1) - a)
@@ -272,6 +268,11 @@ def FindAndSwapRevOptimized(genoom):
     # iterate over all numbers (from 24 to 0)
     for i in range(len(melano) - 1, -1, -1):
 
+	    while melano.index(lowestNumber) == lowestNumber - 1:
+		    if lowestNumber != highestNumber:
+			    lowestNumber += 1
+		    else:
+			    break
 	    if melano[melano.index(lowestNumber) - 1] == lowestNumber + 1:
 		    swapLengthTotal += len(melano[lowestNumber - 1:melano.index(lowestNumber) + 1])
 		    melano[lowestNumber - 1:melano.index(lowestNumber) + 1] = reversed(melano[lowestNumber - 1:melano.index(lowestNumber) + 1])
@@ -287,7 +288,7 @@ def FindAndSwapRevOptimized(genoom):
 		    swapLengthTotal += len(melano[melano.index(i + 1):i + 1])
 		    melano[melano.index(i + 1):i + 1] = reversed(melano[melano.index(i + 1):i + 1])
 		    swaps = swaps + 1
-		    
+		        
      # schrijf mutaties per genoom naar file
     file = open("mutaties_alg6.txt", "a")
     file.write(str(swaps) + "\r\n")
