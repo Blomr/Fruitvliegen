@@ -6,16 +6,14 @@ from collections import deque
 class Genome(object):
 	array = []
 	history = []
-	totalManDist = 0
 	swaps = 0
 	minFutureSwaps = 0
 	score = 0
 	swapLengthTotal = 0
 	
-	def __init__(self, array, history, totalManDist, swaps, minFutureSwaps, score, swapLengthTotal):
+	def __init__(self, array, history, swaps, minFutureSwaps, score, swapLengthTotal):
 		self.array = array
 		self.history = history
-		self.totalManDist = totalManDist
 		self.swaps = swaps
 		self.minFutureSwaps = minFutureSwaps
 		self.score = score
@@ -28,9 +26,15 @@ swaps = 0
 minFutureSwaps = 0
 score = 0
 swapLengthTotal = 0
-totalManDist = 0
 prQueue = []
 archive = []
+
+for c in range(len(melanoStart)):
+	archive.append([])
+
+for d in range(len(archive)):
+	for e in range(len(melanoStart)):
+		archive[d].append([])
 
 print "\n" + "Start: " + str(melanoStart)
 
@@ -39,35 +43,29 @@ elements = 1
 for a in range(len(melanoStart)):
 	if a == 24:
 		break
-	if melanoStart[a] + 1 != melanoStart[a + 1] and melanoStart[a] - 1 != melanoStart [a + 1]:
+	if melanoStart[a] + 1 != melanoStart[a + 1] and melanoStart[a] - 1 != melanoStart[a + 1]:
 		elements += 1
 		
 minFutureSwaps = elements / 2
 print "Minimum Future Swaps: " + str(minFutureSwaps)
 
 score = swaps + minFutureSwaps
-print "Score: " + str(score)
+print "Score: " + str(score) + "\n"
 
-# determine total manhattan distance of first array
-for b in range(len(melanoStart)):
-	totalManDist += abs(melanoStart.index(b + 1) - b)
-
-print "Total Manhattan Distance: " + str(totalManDist) + "\n"
-prQueue.append(Genome(melanoStart, history, totalManDist, swaps, minFutureSwaps, score, swapLengthTotal))
+prQueue.append(Genome(melanoStart, history, swaps, minFutureSwaps, score, swapLengthTotal))
 
 # make new objects until one object is fully sorted
 while prQueue[0].minFutureSwaps != 0:
 	
-	# take array with best score so far
+	# take array with best score so far and put in archive
 	melanoBest = prQueue[0]
-	archive.append(melanoBest.array)
+	archive[melanoBest.array[0] - 1].append(melanoBest.array)
 	myDeque = deque(prQueue)
 	myDeque.popleft()
 	prQueue = list(myDeque)
 			
 	print "Array: " + str(melanoBest.array)
 	print "History: " + str(melanoBest.history)
-	print "Total Manhattan Distance: " + str(melanoBest.totalManDist)
 	print "Swaps: " + str(melanoBest.swaps)
 	print "Minimum Future Swaps: " + str(melanoBest.minFutureSwaps)
 	print "Score: " + str(melanoBest.score)
@@ -90,58 +88,65 @@ while prQueue[0].minFutureSwaps != 0:
 			swaps = melanoBest.swaps
 			swapLengthTotal = melanoBest.swapLengthTotal
 
+			# do swap and add to swapLengthTotal and swaps
 			swapLengthTotal += len(melano[i:i + j + 2])
 			melano[i:i + j + 2] = reversed(melano[i:i + j + 2])
 			swaps += 1
-			
-			# compare array with archive
-			for k in range(len(archive)):
-				if cmp(melano, archive[k]) == 0:
-					continue
-					
-			# determine total manhattan distance of new array
-			totalManDist = 0
-			for l in range(len(melano)):
-				totalManDist += abs(melano.index(l + 1) - l)
-			
-			# determine minimum future swaps of new array
-			elements = 1
-			for m in range(len(melano)):
-				if m == 24:
+
+			# compare array with archive and queue
+			numArchiveFirst = melano[12] - 1
+			numArchiveSecond = melano[13] - 1
+
+			inArchiveOrQueue = False
+			for k in range(len(archive[numArchiveFirst][numArchiveSecond])):
+				if cmp(melano, archive[numArchiveFirst][numArchiveSecond][k]) == 0:
+					inArchiveOrQueue = True
 					break
-				if melano[m] + 1 != melano[m + 1] and melano[m] - 1 != melano[m + 1]:
-					elements += 1
 					
-			minFutureSwaps = elements / 2
-
-			# determine score of new array
-			score = swaps + minFutureSwaps
-
-			# make object and put in right place of priority queue
-			# if total manhattan distance is bigger than the last in queue, add object to the end
-			if len(prQueue) == 0 or score >= prQueue[-1].score:
-				prQueue.append(Genome(melano, addToHistory, totalManDist, swaps, minFutureSwaps, score, swapLengthTotal))
-			else:
-				# find the right place in queue
-				pos = 0
-				while prQueue[pos].score <= score:
-					pos += 1
-					
-				# move old objects ON and AFTER right place by one to the right
-				listLength = len(prQueue)
-				prQueue.append(prQueue[listLength - 1])
-
-				while listLength - 1 != pos:
-					prQueue[listLength] = prQueue[listLength - 1]
-					listLength -= 1
+			if inArchiveOrQueue == False:
+				for l in range(len(prQueue)):
+					if cmp(melano, prQueue[l].array) == 0:
+						inArchiveOrQueue = True
+						break
+			
+			if inArchiveOrQueue == False:
+				# determine minimum future swaps of new array
+				elements = 1
+				for m in range(len(melano)):
+					if m == 24:
+						break
+					if melano[m] + 1 != melano[m + 1] and melano[m] - 1 != melano[m + 1]:
+						elements += 1
 						
-				# put new object on right place
-				prQueue[pos] = Genome(melano, addToHistory, totalManDist, swaps, minFutureSwaps, score, swapLengthTotal)
+				minFutureSwaps = elements / 2
+
+				# determine score of new array
+				score = swaps + minFutureSwaps
+
+				# make object and put in right place of priority queue
+				# if score is bigger than the last in queue, add object to the end
+				if len(prQueue) == 0 or score >= prQueue[-1].score:
+					prQueue.append(Genome(melano, addToHistory, swaps, minFutureSwaps, score, swapLengthTotal))
+				else:
+					# find the right place in queue
+					pos = 0
+					while prQueue[pos].score <= score:
+						pos += 1
+						
+					# move old objects ON and AFTER right place by one to the right
+					listLength = len(prQueue)
+					prQueue.append(prQueue[listLength - 1])
+
+					while listLength - 1 != pos:
+						prQueue[listLength] = prQueue[listLength - 1]
+						listLength -= 1
+							
+					# put new object on right place
+					prQueue[pos] = Genome(melano, addToHistory, swaps, minFutureSwaps, score, swapLengthTotal)
 				
 print "---------------RESULT---------------"
 print "Array: " + str(prQueue[0].array)
 print "History: " + str(prQueue[0].history)
-print "Total Manhattan Distance: " + str(prQueue[0].totalManDist)
 print "Swaps: " + str(prQueue[0].swaps)
 print "Minimum Future Swaps: " + str(prQueue[0].minFutureSwaps)
 print "Score: " + str(prQueue[0].score)
