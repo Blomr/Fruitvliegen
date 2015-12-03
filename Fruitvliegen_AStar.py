@@ -35,7 +35,7 @@ newBest = True
 # make new objects until one object is fully sorted
 while prQueue[0].totalManDist != 0:
 	
-	if newBest == False and len(prQueue) != 1:
+	if newBest == False:
 		prevTotManDist = prQueue[0].totalManDist
 		myDeque = deque(prQueue)
 		myDeque.popleft()
