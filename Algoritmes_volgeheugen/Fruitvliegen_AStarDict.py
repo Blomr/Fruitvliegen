@@ -7,23 +7,23 @@ class Genome(object):
 	array = []
 	history = []
 	swaps = 0
-	elements = 0
+	minFutureSwaps = 0
 	score = 0
 	swapLengthTotal = 0
 	
-	def __init__(self, array, history, swaps, elements, score, swapLengthTotal):
+	def __init__(self, array, history, swaps, minFutureSwaps, score, swapLengthTotal):
 		self.array = array
 		self.history = history
 		self.swaps = swaps
-		self.elements = elements
+		self.minFutureSwaps = minFutureSwaps
 		self.score = score
 		self.swapLengthTotal = swapLengthTotal
 		
 # initialize variables
-#melanoStart = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
-melanoStart = [1, 23, 2, 11, 24, 13, 21, 6, 14, 25, 7, 20, 9, 8, 18, 22, 12, 10, 15, 5, 17, 3, 19, 4, 16]
+melanoStart = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
 history = []
 swaps = 0
+minFutureSwaps = 0
 score = 0
 swapLengthTotal = 0
 prQueue = []
@@ -39,16 +39,19 @@ for a in range(len(melanoStart)):
 		break
 	if melanoStart[a] + 1 != melanoStart[a + 1] and melanoStart[a] - 1 != melanoStart[a + 1]:
 		elements += 1
+		
+minFutureSwaps = elements / 2
+print "Minimum Future Swaps: " + str(minFutureSwaps)
 
-score = swaps + elements
+score = swaps + minFutureSwaps
 print "Score: " + str(score) + "\n"
 
 archive[tuple(melanoStart)] = True
-prQueue.append(Genome(melanoStart, history, swaps, elements, score, swapLengthTotal))
+prQueue.append(Genome(melanoStart, history, swaps, minFutureSwaps, score, swapLengthTotal))
 prQueueScore.append(score)
 
 # make new objects until one object is fully sorted
-while prQueue[0].elements != 1:
+while prQueue[0].minFutureSwaps != 0:
 	
 	# take array with best score so far and put in archive
 	melanoBest = prQueue[0]
@@ -64,7 +67,7 @@ while prQueue[0].elements != 1:
 	print "Array: " + str(melanoBest.array)
 	print "History: " + str(melanoBest.history)
 	print "Swaps: " + str(melanoBest.swaps)
-	print "Elements: " + str(melanoBest.elements)
+	print "Minimum Future Swaps: " + str(melanoBest.minFutureSwaps)
 	print "Score: " + str(melanoBest.score)
 	print "Total Swap Length: " + str(melanoBest.swapLengthTotal) + "\n"
 	
@@ -105,26 +108,28 @@ while prQueue[0].elements != 1:
 						break
 					if melano[m] + 1 != melano[m + 1] and melano[m] - 1 != melano[m + 1]:
 						elements += 1
+						
+				minFutureSwaps = elements / 2
 
 				# determine score of new array
-				score = swaps + elements
+				score = swaps + minFutureSwaps
 
 				# make object and put in right place of priority queue
 				# if score is bigger than the last in queue, add object to the end
 				if len(prQueue) == 0 or score >= prQueue[-1].score:
 					prQueueScore.append(score)
-					prQueue.append(Genome(melano, addToHistory, swaps, elements, score, swapLengthTotal))
+					prQueue.append(Genome(melano, addToHistory, swaps, minFutureSwaps, score, swapLengthTotal))
 				# else, find the right place in queue and insert
 				else:
 					placeInQueue = prQueueScore.index(score + 1)
 					prQueueScore.insert(placeInQueue, score)
-					prQueue.insert(placeInQueue, Genome(melano, addToHistory, swaps, elements, score, swapLengthTotal))
+					prQueue.insert(placeInQueue, Genome(melano, addToHistory, swaps, minFutureSwaps, score, swapLengthTotal))
 
 				
 print "---------------RESULT---------------"
 print "Array: " + str(prQueue[0].array)
 print "History: " + str(prQueue[0].history)
 print "Swaps: " + str(prQueue[0].swaps)
-print "Elements: " + str(prQueue[0].elements)
+print "Minimum Future Swaps: " + str(prQueue[0].minFutureSwaps)
 print "Score: " + str(prQueue[0].score)
 print "Total Swap Length: " + str(prQueue[0].swapLengthTotal)
