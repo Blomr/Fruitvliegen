@@ -12,13 +12,13 @@ def beamSearch(alist):
             blist[i:j+1] = reversed(blist[i:j+1])
             #print(blist)
             queue.append(blist)
-            count += 1
-            
+            count += 1     
     return queue
       
 def chunkFinder(alist):
     count = 0
     chunk = 0
+    biggestChunk = 0
     blist = [None]*len(alist)
     
     
@@ -37,75 +37,42 @@ def chunkFinder(alist):
                 endChunk = alist.index(alist[i])
                 #print("chunsize is",chunk, "begin index chunk is",beginChunk,"end index chunk is", endChunk)
                 # reset chunk size for next chunk
-                #chunk = 0
-        
-    
-    return chunk
-    
+                if chunk > biggestChunk:
+                    biggestChunk = chunk
+                chunk = 0
+    return biggestChunk
+
 def threeLayerSearch(layerOne):
-    countk = 0
-    templayer = []
-    layerTwo = []
-    repLayerTwo = []
-    repLayerTrhee = []
-    longestChunk = 0
-    currentChunk = 0
-    for i in range(len(layerOne)):
-        templayer = beamSearch(layerOne[i])
-        for j in range(len(templayer)):
-            layerTwo.append(templayer[j])
-
-    for k in range(len(layerTwo)):
-        templayer = beamSearch(layerTwo[k])
-        for m in range(len(templayer)):
-            countk += 1
-            
-            # decides which list is the best
-            currentChunk = chunkFinder(templayer[m])
-            if currentChunk > longestChunk:
-                longestChunk = currentChunk
-                repLayerTwo = layerTwo[k]
-                repLayerTrhee = templayer[m]
-
-    print("total adjecent numbers is", longestChunk)
-    print("layer two is",repLayerTwo, "layer three is", repLayerTrhee)
-    return repLayerTrhee
-    
-def threeLayerSearchTest(layerOne):
     countk = 0
     tempLayerTwo = []
     tempLayerThree = []
-    layerTwo = []
     repLayerOne = []
     repLayerTwo = []
     repLayerTrhee = []
     longestChunk = 0
     currentChunk = 0
-    for i in range(len(layerOne)):
-        templayerTwo = beamSearch(layerOne[i])
-        #print(templayerTwo)
-        for j in range(len(tempLayerTwo)):
-            tempLayerThree = beamSearch(tempLayerTwo[j])
-            print(tempLayerTwo[j])
-            for m in range(len(templayerThree)):
+    for i in layerOne:
+        templayerTwo = beamSearch(i)   
+        for j in templayerTwo:
+            tempLayerThree = beamSearch(j)
+            for m in tempLayerThree:
                 countk += 1
-                
-                # decides which list is the best
-                currentChunk = chunkFinder(templayer[m])
+                # saves the first instance of the longest chunk
+                currentChunk = chunkFinder(m)
                 if currentChunk > longestChunk:
                     longestChunk = currentChunk
-                    repLayerOne = layerOne[i]
-                    repLayerTwo = tempLayerTwo[j]
-                    repLayerTrhee = templayer[m]
-
+                    repLayerOne = i
+                    repLayerTwo = j
+                    repLayerTrhee = m
+    #print(tempLayerTwo)
     print(countk)
     print("total adjecent numbers is", longestChunk)
-    print("layer one is",repLayerOne,"layer two is",repLayerTwo, "layer three is", repLayerTrhee)
+    print("\n",repLayerOne,"\n",repLayerTwo, "\n", repLayerTrhee, "chosen out of 27 000 000")
     return repLayerTrhee
 
     
 alist = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
 layerOne = beamSearch(alist)
-layerThree = threeLayerSearchTest(layerOne)
+layerThree = threeLayerSearch(layerOne)
 
 
