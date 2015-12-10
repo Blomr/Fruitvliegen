@@ -4,12 +4,6 @@
 from collections import deque
 
 class Genome(object):
-	array = []
-	history = []
-	swaps = 0
-	elements = 0
-	score = 0
-	swapLengthTotal = 0
 	
 	def __init__(self, array, history, swaps, elements, score, swapLengthTotal):
 		self.array = array
@@ -20,8 +14,8 @@ class Genome(object):
 		self.swapLengthTotal = swapLengthTotal
 		
 # initialize variables
-#melanoStart = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
-melanoStart = [1, 23, 2, 11, 24, 13, 21, 6, 14, 25, 7, 20, 9, 8, 18, 22, 12, 10, 15, 5, 17, 3, 19, 4, 16]
+melanoStart = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
+#melanoStart = [1, 23, 2, 11, 24, 13, 21, 6, 14, 25, 7, 20, 9, 8, 18, 22, 12, 10, 15, 5, 17, 3, 19, 4, 16]
 history = []
 swaps = 0
 score = 0
