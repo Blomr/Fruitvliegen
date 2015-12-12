@@ -85,7 +85,16 @@ while groups != 5:
 print melano
 print "swapLengthTotal: " + str(swapLengthTotal)
 
-group1 = []
+for x in range(len(melano)):
+	if melano.index(x + 1) != x:
+		swapLengthTotal += len(melano[x:melano.index(x + 1) + 1])
+		melano[x:melano.index(x + 1) + 1] = reversed(melano[x:melano.index(x + 1) + 1])
+		print melano
+		print str(swapLengthTotal) + "\n"
+		
+			
+		
+"""group1 = []
 for v in range(0,5):
 	group1.append(melano[x])
 	
@@ -108,5 +117,5 @@ for z in range(21,25):
 melanoTuple = tuple(melano)
 for	l in range(5):
 	for m in range(5):
-		group1.
+		group1."""
 				
