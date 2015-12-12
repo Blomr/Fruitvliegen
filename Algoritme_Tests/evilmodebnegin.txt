@@ -1,0 +1,54 @@
+ArrayList<String> evillist = new ArrayList<String>();
+    for(String word: dictionary){
+        if(word.length()==wordlength){
+            evillist.add(word);
+        }
+    }
+    return(list);
+
+dit is de lijst van woorden die  _ _ _ _ matchen
+
+
+
+de gebruiker tikt A aan
+ga kijken op welke mogelijke plekken A staat
+
+intereer over lijst van  _ _ _ _  woorden
+ArrayList<String> evillist = new ArrayList<String>();
+    for(String word: evillist){
+        
+keyword = _ _ _ _ 
+
+	for (int i  = 0, i < ){
+		if aletter == letter
+			thekeyword.setCharAt(i, letter);
+
+        }
+    }
+
+
+
+nieuwe string  _ _ _ _
+
+itereer over letters van woord
+als de letter er in zit maak op die plek de letter in  _ _ _ _ string
+
+is het al een key van de hash table?
+
+zo ja: voeg het woord dat deze key oplevert toe aan de list hier achter
+zo nee: maak de key de nieuwe head van een list en stop het woord dat er bij hoort er achter
+
+
+
+
+// als de letter er in zit, kijk dan hoe die het beste omzeild kan worden
+chosenword.indexOf('guessedletter') != -1
+
+
+
+
+for(String word: evillist){
+
+// create a list of all the words that do not contain this letter
+if(word.indexOf(chosencharacter) != -1)
+evilllist_tier2.add(word);
