@@ -56,6 +56,80 @@ def chunkFinder(alist):
     elements = counter 
     score = chunklength / elements
     return score
+    
+def chunkFinderTwo(alist):
+    counter = 0
+    extraPoints = 0
+    extraScoreCounter = 0
+    elements = 0
+    chunklength = 0
+    score = 0
+    biggestChunk = 0
+    
+    for i in range(len(alist)):
+        # looks if last number is part of a chunk, otherwise he ocasionally ignores those.
+        if alist[i] == alist[-1]:
+            if alist[i-1] == alist[i]-1 or alist[i-1] == alist[i]+1:
+                counter += 1
+                extraScoreCounter = 0
+        # looks for positive chunks
+        if alist[(i+1)% len(alist)] == alist[i]+1 or alist[(i-1)% len(alist)] == alist[i]-1:
+            #represents te size of the chunk
+            chunklength += 1
+            
+            # if the chunk is bigger than two numbers it get an extra point per number
+            extraScoreCounter += 1
+            if extraScoreCounter > 2:
+                extraPoints += 1
+            
+            # if last number of chunk is reached, count the the chunk as element
+            if alist[(i+1)% len(alist)] != alist[i]+1:
+                # ignores last number if part of chunk as its already counted
+                if alist[i] == alist[-1]:
+                    continue
+                    
+                counter += 1
+                extraScoreCounter = 0
+        # looks for negative chunks
+        elif alist[(i+1)% len(alist)] == alist[i]-1 or alist[(i-1)% len(alist)] == alist[i]+1:
+            chunklength += 1
+            
+            # if the chunk is bigger than two numbers it get an extra point per number
+            extraScoreCounter += 1
+            if extraScoreCounter > 2:
+                extraPoints =+ 1
+            
+            # if last number of chunk is reached, count the the chunk as element
+            if alist[(i+1)% len(alist)] != alist[i]-1:
+                # ignores last number if part of chunk as its already counted
+                if alist[i] == alist[-1]:
+                    continue
+        
+                counter += 1
+                extraScoreCounter = 0
+        # counts single numbers as elements
+        else :
+            counter += 1
+
+    elements = counter 
+    score = (chunklength / elements) + extraPoints
+    return score
+    
+def getScore(alist):
+    if not alist:
+        return -1000
+    
+    addScore = 0
+    score = 0 
+    for i in alist:
+        addScore = i - alist[i-1]
+        if addScore > 0:
+            addScore = addScore - (addScore * 2)
+            
+        score += addScore
+        
+        
+    return score
 
 def threeLayerSearch(layerOne):
     countk = 0
@@ -78,16 +152,21 @@ def threeLayerSearch(layerOne):
                 return j
             tempLayerThree = beamSearch(j)
             for m in tempLayerThree:
+                if m == endResult:
+                    print("\n",i, "\n",j,"\n",m)
+            
                 countk += 1
                 # saves the best out of 27000000 
-                currentScore = chunkFinder(m)
+                currentScore = chunkFinderTwo(m)
                 if currentScore > highestScore:
                     highestScore = currentScore
                     repLayerOne = i
                     repLayerTwo = j
                     repLayerTrhee = m
+                    
+
     #print(tempLayerTwo)
-    print(countk)
+    #print(countk)
     print("\n",repLayerOne,"\n",repLayerTwo, "\n", repLayerTrhee, "chosen out of 27 000 000")
     print("current score is", highestScore)
     return repLayerTrhee
