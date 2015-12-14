@@ -30,6 +30,7 @@ swaps = 0
 swapLengthTotal = 0
 totalManDist = 0
 prQueue = []
+results = []
 
 print "\n" + "Start: " + str(melanoStart)
 
@@ -42,8 +43,25 @@ prQueue.append(Genome(melanoStart, totalManDist, swaps, swapLengthTotal))
 newBest = True
 
 # make new objects until one object is fully sorted
-while prQueue[0].totalManDist != 0:
-	
+while noResult != 25:
+
+	if prQueue[0].totalManDist != 0:
+		results.append(prQueue[0])
+		
+		prQueue = []
+		noResult += 1
+		swaps = 1
+		
+		melanoStart = list(melanoStartTuple)
+		swapLengthTotal = len(melanoStart[0:noResult])
+		melanoStart[0:noResult] = reversed(melanoStart[0:noResult])
+		
+		totalManDist = 0
+		for a in range(len(melanoStart)):
+			totalManDist += abs(melanoStart.index(a + 1) - a)
+			
+		prQueue.append(Genome(melanoStart, totalManDist, swaps, swapLengthTotal))
+
 	if newBest == False:
 		prQueue = []
 		noResult += 1
@@ -55,7 +73,7 @@ while prQueue[0].totalManDist != 0:
 		
 		totalManDist = 0
 		for a in range(len(melano)):
-			totalManDist += abs(melano.index(a + 1) - a)
+			totalManDist += abs(melanoStart.index(a + 1) - a)
 			
 		prQueue.append(Genome(melanoStart, totalManDist, swaps, swapLengthTotal))
 		
@@ -180,9 +198,16 @@ while prQueue[0].totalManDist != 0:
 				# put new object on right place
 				prQueue[pos] = Genome(melano, totalManDist, swaps, swapLengthTotal)
 				#print "length queue: " + str(len(prQueue)) + "\n"
-				
+	
 print "---------------RESULT---------------"
+for r in results:
+	print "Array: " + str(r.array)
+	print "Total Manhattan Distance: " + str(r.totalManDist)
+	print "Swaps: " + str(r.swaps)
+	print "Total Swap Length: " + str(r.swapLengthTotal)
+
+"""print "---------------RESULT---------------"
 print "Array: " + str(prQueue[0].array)
 print "Total Manhattan Distance: " + str(prQueue[0].totalManDist)
 print "Swaps: " + str(prQueue[0].swaps)
-print "Total Swap Length: " + str(prQueue[0].swapLengthTotal)
+print "Total Swap Length: " + str(prQueue[0].swapLengthTotal)"""
