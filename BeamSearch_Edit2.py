@@ -21,39 +21,30 @@ def chunkFinder(alist):
     biggestChunk = 0
     
     for i in range(len(alist)):
-        # looks if last number is part of a chunk, otherwise he ocasionally ignores those.
-        if alist[i] == alist[-1]:
-            if alist[i-1] == alist[i]-1 or alist[i-1] == alist[i]+1:
-                counter += 1
-        
-        # looks for positive chunks
+        #detects if numbers are already sorted and counts those numbers
+        #here we call those numbers sorted numbers a chunk
         if alist[(i+1)% len(alist)] == alist[i]+1 or alist[(i-1)% len(alist)] == alist[i]-1:
-
-            #represents te size of the chunk
+            #represents the total length of the chunks
             chunklength += 1
-            # if last number of chunk is reached, count the the chunk as element
-            if alist[(i+1)% len(alist)] != alist[i]+1:
-                # ignores last number if part of chunk as its already counted
-                if alist[i] == alist[-1]:
-                    break
-                    
+            counter += 1
+            #check if end of chunk is reached and ads an extra number to the counter.
+            # this to count the chunk as one element after distracting the size from the counter.
+            if alist[(i-1)% len(alist)] == alist[i]-1 and alist[(i+1)% len(alist)] != alist[i]+1:
                 counter += 1
-
-        # looks for negative chunks
+                
+        #same as before, but this one counts the chunks in a negative order
         elif alist[(i+1)% len(alist)] == alist[i]-1 or alist[(i-1)% len(alist)] == alist[i]+1:
             chunklength += 1
-            # if last number of chunk is reached, count the the chunk as element
-            if alist[(i+1)% len(alist)] != alist[i]-1:
-                # ignores last number if part of chunk as its already counted
-                if alist[i] == alist[-1]:
-                    break
-        
-                counter += 1
-        # counts single numbers as elements
-        else :
             counter += 1
-
-    elements = counter 
+            #check if end of chunk is reached and ads an extra number to the counter.
+            # this to count the chunk as one element after distracting the size from the counter.
+            if alist[(i-1)% len(alist)] == alist[i]+1 and alist[(i+1)% len(alist)] != alist[i]-1:
+                counter += 1
+        #update counter after finding a single number
+        else:
+            counter += 1
+	
+    elements = counter - chunklength
     score = elements
     return score
 
