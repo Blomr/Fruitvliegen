@@ -15,9 +15,68 @@ class Genome(object):
 		self.swaps = swaps
 		self.swapLengthTotal = swapLengthTotal
 		
+def genomeChanger(genome):
+	
+	swapped = False
+	for x in range(len(genome)):
+		listGenome = list(genome)
+		lowDist = abs(x - listGenome.index(listGenome[x] - 1))
+		highDist = abs(x - listGenome.index(listGenome[x] + 1))
 		
+		if lowDist == 1 or lowDist > 5:
+			if highDist <= 5:
+				if x < listGenome.index(listGenome[x] + 1):
+					swapLength = len(listGenome[x:listGenome.index(listGenome[x] + 1)])
+					listGenome[x:listGenome.index(listGenome[x] + 1)] = reversed(listGenome[x:listGenome.index(listGenome[x] + 1)])
+					swapped = True
+				else:
+					swapLength = len(listGenome[listGenome.index(listGenome[x] + 1) + 1:x + 1])
+					listGenome[listGenome.index(listGenome[x] + 1) + 1:x + 1] = reversed(listGenome[listGenome.index(listGenome[x] + 1) + 1:x + 1])
+					swapped = True
+					
+		if highDist == 1 or highDist > 5:
+			if lowDist <= 5:
+				if x < listGenome.index(listGenome[x] - 1):
+					swapLength = len(listGenome[x:listGenome.index(listGenome[x] - 1)])
+					listGenome[x:listGenome.index(listGenome[x] - 1)] = reversed(listGenome[x:listGenome.index(listGenome[x] - 1)])
+					swapped = True
+				else:
+					swapLength = len(listGenome[listGenome.index(listGenome[x] - 1) + 1:x + 1])
+					listGenome[listGenome.index(listGenome[x] - 1) + 1:x + 1] = reversed(listGenome[listGenome.index(listGenome[x] - 1) + 1:x + 1])
+					swapped = True
+					
+		if lowDist <= 5 and lowDist != 1:
+			if highDist <= 5 and highDist != 1:
+				if lowDist < highDist:
+					if x < listGenome.index(listGenome[x] - 1):
+						swapLength = len(listGenome[x:listGenome.index(listGenome[x] - 1)])
+						listGenome[x:listGenome.index(listGenome[x] - 1)] = reversed(listGenome[x:listGenome.index(listGenome[x] - 1)])
+						swapped = True
+					else:
+						swapLength = len(listGenome[listGenome.index(listGenome[x] - 1) + 1:x + 1])
+						listGenome[listGenome.index(listGenome[x] - 1) + 1:x + 1] = reversed(listGenome[listGenome.index(listGenome[x] - 1) + 1:x + 1])
+						swapped = True
+				else:
+					if x < listGenome.index(listGenome[x] + 1):
+						swapLength = len(listGenome[x:listGenome.index(listGenome[x] + 1)])
+						listGenome[x:listGenome.index(listGenome[x] + 1)] = reversed(listGenome[x:listGenome.index(listGenome[x] + 1)])
+						swapped = True
+					else:
+						swapLength = len(listGenome[listGenome.index(listGenome[x] + 1) + 1:x + 1])
+						listGenome[listGenome.index(listGenome[x] + 1) + 1:x + 1] = reversed(listGenome[listGenome.index(listGenome[x] + 1) + 1:x + 1])
+						swapped = True
 		
-
+		if swapped == True:
+			tupleGenome = tuple(listGenome)
+			inArchive = True
+			if tupleGenome not in archive:
+				archive[tupleGenome] = True
+				inArchive = False
+			if inArchive == False:
+				result = [tupleGenome, swapLength]
+				return result
+			
+			
 bestStartGenome = (23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9)
 melanoStart = [23, 1, 2, 11, 24, 22, 19, 6, 10, 7, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9]
 #melanoStartTuple = (11, 2, 1, 23, 24, 22, 19, 6, 7, 10, 25, 20, 5, 8, 18, 12, 13, 14, 15, 16, 17, 21, 3, 4, 9)
@@ -34,6 +93,7 @@ bestStartSwaps = 0
 bestStartSLT = 0
 bestEndSLT = 1000
 prQueue = []
+archive = dict()
 tries = 1
 
 
@@ -54,23 +114,36 @@ while tries != 10:
 	if prQueue[0].totalManDist == 0:
 		if prQueue[0].swapLengthTotal < bestEndSLT:
 			bestEndSLT = prQueue[0].swapLengthTotal
-			prQueue = []
-			tries += 1
+
 			bestStartSwaps = tempSwaps
 			bestStartGenome = tempGenome
 			bestStartSLT = tempSLT
+			
+			prQueue = []
+			tries += 1
+			#doe functie, voeg toe aan queue
+			arrayResults = genomeChanger(bestStartGenome)
+			tempGenome = arrayResults[0]
+			tempSLT += arrayResults[1]
+			tempSwaps += 1
+			
+			totalManDist = 0
+			for a in range(len(tempGenome)):
+				totalManDist += abs(tempGenome.index(a + 1) - a)
+			
+			prQueue.append(Genome(list(tempGenome), totalManDist, tempSwaps, tempSLT))
+			
 		else:
 			prQueue = []
 			tries += 1
+			#doe functie, voeg toe aan queue
 			
 	if newBest == False:
 		prQueue = []
 		tries += 1
 		swaps = 1
 
-		melanoStart = list(melanoStartTuple)
-		swapLengthTotal = len(melanoStart[0:noResult])
-		melanoStart[0:noResult] = reversed(melanoStart[0:noResult])
+		#doe functie, voeg toe aan queue
 		
 		totalManDist = 0
 		for a in range(len(melano)):
