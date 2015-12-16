@@ -1,3 +1,8 @@
+import random
+from copy import deepcopy
+from collections import deque
+from datetime import datetime
+
 ########################################################################
 # ASTER TOTALEGENEN
 ########################################################################
@@ -152,10 +157,7 @@ def totalGenes(genome):
 	file.write(str(swapLengthTotal / swaps) + "\r\n")
 	file.close()
     
-    # schrijf element score per ding naar file
-	file = open("elementscore_alg9_re.txt", "a")
-	file.write(str(startelements) + "\r\n")
-	file.close()
+   
 
 
 
