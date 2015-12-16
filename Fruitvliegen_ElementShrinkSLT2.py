@@ -53,6 +53,7 @@ def sorting(genome):
 			melanoBest = prQueue1[0]
 			scoreBest = prQueue1Score[0]
 			
+		# make priority queues empty
 		prQueue2 = []
 		prQueue1 = []
 		prQueue2Score = []
@@ -88,24 +89,24 @@ def sorting(genome):
 				melano[i:i + j + 2] = reversed(melano[i:i + j + 2])
 				swaps += 1
 
-				# if not in archive, determine elements of new array
+				# count elements of new array
 				elements = 1
 				for m in range(len(melano)):
 					if m == 24:
 						break
 					if melano[m] + 1 != melano[m + 1] and melano[m] - 1 != melano[m + 1]:
 						elements += 1
-				#print elements
 					
-				gate2 = False
-				gate1 = False
+				# put in queue1 or queue2 if amount of elements is less than parent
+				putInQueue2 = False
+				putInQueue1 = False
 				elementShrink = False
 				if elements < melanoBest.elements:
 					elementShrink = True
 					if melanoBest.elements - elements == 2:
-						gate2 = True
+						putInQueue2 = True
 					else:
-						gate1 = True
+						putInQueue1 = True
 					
 				# compare array with archive, if amount of elements shrinked
 				inArchive = True
@@ -116,10 +117,8 @@ def sorting(genome):
 					
 				# if not in archive, put in queue
 				if inArchive == False:
-					# determine score of new array
-					#score = swaps + elements
-					if gate2 == True:
-						# make object and put in right place of priority queue
+					# if elements shrinked by 2
+					if putInQueue2 == True:
 						# if score is bigger than the last in queue, add object to the end
 						if len(prQueue2) == 0 or swapLength >= prQueue2Score[-1]:
 							prQueue2Score.append(swapLength)
@@ -132,10 +131,10 @@ def sorting(genome):
 							placeInQueue = prQueue2Score.index(swapLength + k)
 							prQueue2Score.insert(placeInQueue, swapLength)
 							prQueue2.insert(placeInQueue, Genome(melano, addToHistory, swaps, elements, swapLengthTotal))
-						gate2 = False
-							
+						putInQueue2 = False
+						
+					# if elements shrinked by 1
 					else:
-						# make object and put in right place of priority queue
 						# if score is bigger than the last in queue, add object to the end
 						if len(prQueue1) == 0 or swapLength >= prQueue1Score[-1]:
 							prQueue1Score.append(swapLength)
@@ -148,8 +147,9 @@ def sorting(genome):
 							placeInQueue = prQueue1Score.index(swapLength + k)
 							prQueue1Score.insert(placeInQueue, swapLength)
 							prQueue1.insert(placeInQueue, Genome(melano, addToHistory, swaps, elements, swapLengthTotal))
-						gate1 = False
-						
+						putInQueue1 = False
+			
+		# if an object has only 1 element, stop algorithm
 		if len(prQueue2) != 0:
 			if prQueue2[0].elements == 1:
 				result = 2

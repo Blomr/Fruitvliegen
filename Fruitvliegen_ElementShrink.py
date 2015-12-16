@@ -48,7 +48,7 @@ def sorting(genome):
 	# make new objects until one object is fully sorted
 	while prQueue[0].elements != 1:
 		
-		# take array with best score so far 
+		# take object with best score so far 
 		melanoBest = prQueue[0]
 		myDeque = deque(prQueue)
 		myDeque.popleft()

@@ -1,6 +1,9 @@
-# The next algorithm is the as the original FindandSwap.
-# The only difference is that the sorting begins at the end of the list
-# instead of at the begin.
+# The next algorithm searches for the highest number in the array (25).
+# When it finds the number it inverses all numbers from the most right till the number itself.
+# Now the numbers that are swapped are mirrored compared to their previous state.
+# 25 is now in the right position. Now the algorithm searches for 24.
+# When it is found, it repeats the process except that 25 stays in place.
+# The algorithm is done when the whole array is sorted.
 
 def sorting(genome):
 	melano = genome
