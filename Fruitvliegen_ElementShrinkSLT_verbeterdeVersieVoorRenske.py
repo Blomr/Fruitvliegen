@@ -28,8 +28,6 @@ def sorting(genome):
 	archive = dict()
 	result = 0
 
-	print "\n" + "Start: " + str(melanoStart)
-
 	# count elements of start genome
 	elements = 1
 	for a in range(len(melanoStart)):
@@ -57,13 +55,6 @@ def sorting(genome):
 		prQueue1 = []
 		prQueue2Score = []
 		prQueue1Score = []
-
-		print "Array: " + str(melanoBest.array)
-		print "History: " + str(melanoBest.history)
-		print "Swaps: " + str(melanoBest.swaps)
-		print "Elements: " + str(melanoBest.elements)
-		print "Total Swap Length: " + str(melanoBest.swapLengthTotal) 
-		print "Last Swap: " + str(scoreBest) + "\n"
 		
 		melanoTuple = tuple(melanoBest.array)
 		historyTuple = tuple(melanoBest.history)
