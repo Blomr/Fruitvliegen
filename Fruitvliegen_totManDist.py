@@ -4,11 +4,6 @@
 from collections import deque
 
 class Genome(object):
-	array = []
-	totalManDist = 0
-	swaps = 0
-	swapLengthTotal = 0
-	
 	def __init__(self, array, totalManDist, swaps, swapLengthTotal):
 		self.array = array
 		self.totalManDist = totalManDist
