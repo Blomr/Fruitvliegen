@@ -136,7 +136,7 @@ def totalGenes(genome):
 							prQueue1Score.insert(placeInQueue, swapLength)
 							prQueue1.insert(placeInQueue, Genome(melano, addToHistory, swaps, elements, swapLengthTotal))
 						
-                        gate1 = False
+                        			gate1 = False
 
     # schrijf mutaties per genoom naar file
     file = open("mutaties_alg9_re.txt", "a")
