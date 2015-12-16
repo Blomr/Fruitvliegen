@@ -1,6 +1,5 @@
-# The next algorithm is the as the original FindandSwap.
-# The only difference is that the sorting begins at the end of the list
-# instead of at the begin.
+# The next algorithm searches for all results with 17 swaps or less
+
 from collections import deque
 
 class Genome(object):
@@ -25,24 +24,25 @@ def sorting(genome):
 
 	print "\n" + "Start: " + str(melanoStart)
 
-	# minimum future swaps
+	# count elements
 	elements = 1
 	for a in range(len(melanoStart)):
 		if a == 24:
 			break
 		if melanoStart[a] + 1 != melanoStart[a + 1] and melanoStart[a] - 1 != melanoStart[a + 1]:
 			elements += 1
-
+	
+	# determine score of start array
 	startScore = swaps + elements
 	print "Score: " + str(startScore) + "\n"
 
 	archive[tuple(melanoStart)] = True
 	prQueue.append(Genome(melanoStart, history, swaps, elements, startScore, swapLengthTotal))
 
-	# make new objects until one object is fully sorted
+	# run algorithm until the queue is empty
 	while len(prQueue) != 0:
 		
-		# take array with best score so far and put in archive
+		# take array with best score out of queue
 		melanoBest = prQueue[0]
 		myDeque = deque(prQueue)
 		myDeque.popleft()
@@ -84,7 +84,7 @@ def sorting(genome):
 				else:
 					inArchive = True
 					
-				# if not in archive, determine minimum future swaps of new array
+				# if not in archive, determine elements of new array
 				if inArchive == False:
 					elements = 1
 					for m in range(len(melano)):
@@ -96,8 +96,7 @@ def sorting(genome):
 					# determine score of new array
 					score = swaps + elements
 
-					# make object and put in right place of priority queue
-					# if score is bigger than the last in queue, add object to the end
+					# make object and append to queue
 					if score <= startScore:
 						if elements == 1:
 							results.append(Genome(melano, addToHistory, swaps, elements, score, swapLengthTotal))

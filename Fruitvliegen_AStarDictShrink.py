@@ -1,6 +1,7 @@
-# The next algorithm is the as the original FindandSwap.
-# The only difference is that the sorting begins at the end of the list
-# instead of at the begin.
+# The next algorithm finds the minimum amount of swaps to sort the
+# D. Melanogaster via A-Star. It counts the amount of swaps what already
+# have been done and the minimum future swaps. The two together is the score.
+# Depending on the score, the new genome gets a place in the priority queue.
 from collections import deque
 
 class Genome(object):
@@ -27,7 +28,7 @@ def sorting(genome):
 
 	print "\n" + "Start: " + str(melanoStart)
 
-	# minimum future swaps
+	# determine minimum future swaps of start array
 	elements = 1
 	for a in range(len(melanoStart)):
 		if a == 24:
@@ -37,10 +38,12 @@ def sorting(genome):
 			
 	minFutureSwaps = elements / 2
 	print "Minimum Future Swaps: " + str(minFutureSwaps)
-
+	
+	# determine score of start array
 	score = swaps + minFutureSwaps
 	print "Score: " + str(score) + "\n"
 
+	# put start object in archive
 	archive[tuple(melanoStart)] = True
 	prQueue.append(Genome(melanoStart, history, swaps, elements, minFutureSwaps, score, swapLengthTotal))
 	prQueueScore.append(score)
@@ -48,7 +51,7 @@ def sorting(genome):
 	# make new objects until one object is fully sorted
 	while prQueue[0].minFutureSwaps != 0:
 		
-		# take array with best score so far and put in archive
+		# take array with best score so far out of queue 
 		melanoBest = prQueue[0]
 		myDeque = deque(prQueue)
 		myDeque.popleft()
@@ -88,7 +91,8 @@ def sorting(genome):
 				swapLengthTotal += len(melano[i:i + j + 2])
 				melano[i:i + j + 2] = reversed(melano[i:i + j + 2])
 				swaps += 1
-
+				
+				# count elements
 				elements = 1
 				for m in range(len(melano)):
 					if m == 24:
@@ -96,11 +100,12 @@ def sorting(genome):
 					if melano[m] + 1 != melano[m + 1] and melano[m] - 1 != melano[m + 1]:
 						elements += 1
 						
+				# check if amount of elements has shrinked
 				elementShrink = False
 				if elements < melanoBest.elements:
 					elementShrink = True
 					
-				# compare array with archive, if amount of elements shrinked
+				# compare array with archive, if amount of elements shrinked, put in archive
 				inArchive = True
 				if elementShrink == True:
 					if tuple(melano) not in archive:

@@ -1,6 +1,10 @@
-# The next algorithm is the as the original FindandSwap.
-# The only difference is that the sorting begins at the end of the list
-# instead of at the begin.
+# The next algorithm finds the minimum amount of swaps to sort the
+# D. Melanogaster via an algorithm inspired by A-Star. Depending on their
+# scores (swaps + elements) new genomes get a place in the priority queue. If a genome shrinks
+# with two elements, it will get a high priority. And so an answer will be
+# found quickly. New genomes that are made has to be smaller in elements. Only than it will be
+# put into the priority queue and archive.
+
 from collections import deque
 
 class Genome(object):
@@ -25,14 +29,15 @@ def sorting(genome):
 
 	print "\n" + "Start: " + str(melanoStart)
 
-	# minimum future swaps
+	# count elements of start genome
 	elements = 1
 	for a in range(len(melanoStart)):
 		if a == 24:
 			break
 		if melanoStart[a] + 1 != melanoStart[a + 1] and melanoStart[a] - 1 != melanoStart[a + 1]:
 			elements += 1
-
+	
+	# determine score of start genome
 	score = swaps + elements
 	print "Score: " + str(score) + "\n"
 
@@ -43,7 +48,7 @@ def sorting(genome):
 	# make new objects until one object is fully sorted
 	while prQueue[0].elements != 1:
 		
-		# take array with best score so far and put in archive
+		# take array with best score so far 
 		melanoBest = prQueue[0]
 		myDeque = deque(prQueue)
 		myDeque.popleft()
@@ -83,7 +88,7 @@ def sorting(genome):
 				melano[i:i + j + 2] = reversed(melano[i:i + j + 2])
 				swaps += 1
 
-				# if not in archive, determine elements of new array
+				# count elements of new array
 				elements = 1
 				for m in range(len(melano)):
 					if m == 24:
@@ -91,6 +96,7 @@ def sorting(genome):
 					if melano[m] + 1 != melano[m + 1] and melano[m] - 1 != melano[m + 1]:
 						elements += 1
 							
+				# check if new array has less elements than parent
 				elementShrink = False
 				if elements < melanoBest.elements:
 					elementShrink = True

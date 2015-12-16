@@ -1,9 +1,7 @@
-# The next algorithm searches for the lowest number in the array (1).
-# When it finds the number it inverses all numbers from the most left till the number itself.
-# Now the numbers that are swapped are mirrored compared to their previous state.
-# 1 is now in the right position. Now the algorithm searches for 2, etcetera.
-# The difference with FindandSwap is that this algorithm keeps chunks of numbers that differs
-# from eachother with only 1, intact. 
+# The next algorithm searches for numbers that forms chunks with other numbers.
+# A chunk could be row of numbers that are incrementing of decrementing by 1.
+# Like 9,10,11,12 or 7,6,5,4. If the algorithm wants to make a swap, it has to
+# let the chunk intact and swap the whole chunk.
 
 def sorting(genome):
 	melano = genome

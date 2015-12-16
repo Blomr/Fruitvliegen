@@ -135,28 +135,27 @@ def totalGenes(genome):
 							placeInQueue = prQueue1Score.index(swapLength + k)
 							prQueue1Score.insert(placeInQueue, swapLength)
 							prQueue1.insert(placeInQueue, Genome(melano, addToHistory, swaps, elements, swapLengthTotal))
-						
-                        			gate1 = False
+						gate1 = False
 
     # schrijf mutaties per genoom naar file
-    file = open("mutaties_alg9_re.txt", "a")
-    file.write(str(swaps) + "\r\n")
-    file.close()
+	file = open("mutaties_alg9_re.txt", "a")
+	file.write(str(swaps) + "\r\n")
+	file.close()
     
     # schrijf totaal aantal genen verplaatst naar file
-    file = open("totaalgenen_alg9_re.txt", "a")
-    file.write(str(swapLengthTotal) + "\r\n")
-    file.close()
+	file = open("totaalgenen_alg9_re.txt", "a")
+	file.write(str(swapLengthTotal) + "\r\n")
+	file.close()
 
     # schrijf gemiddelde grootte mutatie naar file
-    file = open("gemgroottemutatie_alg9_re.txt", "a")
-    file.write(str(swapLengthTotal / swaps) + "\r\n")
-    file.close()
+	file = open("gemgroottemutatie_alg9_re.txt", "a")
+	file.write(str(swapLengthTotal / swaps) + "\r\n")
+	file.close()
     
     # schrijf element score per ding naar file
-    file = open("elementscore_alg9_re.txt", "a")
-    file.write(str(startelements) + "\r\n")
-    file.close()
+	file = open("elementscore_alg9_re.txt", "a")
+	file.write(str(startelements) + "\r\n")
+	file.close()
 
 
 
