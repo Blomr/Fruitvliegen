@@ -1,8 +1,11 @@
 from collections import defaultdict
 from copy import deepcopy
 
-def beamSearch(alist):
-
+"""
+Gets a single list and performs every possible inversion with it appending every result of 
+the inversions in a list that gets passed back. with a list of 25 numbers there will be 300 results.
+"""
+def getAllInversions(alist):
     queue = []
     count = 0
     for i in range(len(alist)):
@@ -12,8 +15,13 @@ def beamSearch(alist):
             queue.append(blist)
             count += 1     
     return queue
-      
-def chunkFinder(alist):
+     
+"""
+score version 1.
+Gives a point for every number inside a chunk, and divides it by the number of elements 
+(single numbers and amount of chunnks).
+"""     
+def getScoreFromChunks(alist):
     counter = 0
     elements = 0
     chunklength = 0
@@ -57,7 +65,12 @@ def chunkFinder(alist):
     score = chunklength / elements
     return score
     
-def chunkFinderTwo(alist):
+"""
+score version 2.
+Gives a point for every number inside a chunk bigger than 2 numbers, and divides it by the number of elements 
+(single numbers and amount of chunnks).
+"""       
+def getScoreFromBigChunks(alist):
     counter = 0
     extraPoints = 0
     extraScoreCounter = 0
@@ -104,7 +117,6 @@ def chunkFinderTwo(alist):
                 # ignores last number if part of chunk as its already counted
                 if alist[i] == alist[-1]:
                     continue
-        
                 counter += 1
                 extraScoreCounter = 0
         # counts single numbers as elements
@@ -114,11 +126,12 @@ def chunkFinderTwo(alist):
     elements = counter 
     score = (chunklength / elements) + extraPoints
     return score
-    
-def getScore(alist):
-    if not alist:
-        return -1000
-    
+
+"""
+score version 3.
+gives a negative point for every step a number is away from its right place 
+"""
+def getScoreFromPosition(alist):
     addScore = 0
     score = 0 
     for i in alist:
@@ -127,11 +140,14 @@ def getScore(alist):
             addScore = addScore - (addScore * 2)
             
         score += addScore
-        
-        
     return score
-
+    
+"""
+Iterates trough the given 300 lists creating 90000 results, and searches trough those creating 27 milion results.
+The best result out of those 27 milion is chosen to return. 
+"""
 def threeLayerSearch(layerOne):
+    # initiate necisary values
     countk = 0
     endResult = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
     tempLayerTwo = []
@@ -139,61 +155,80 @@ def threeLayerSearch(layerOne):
     repLayerOne = []
     repLayerTwo = []
     repLayerTrhee = []
-    highestScore = 0
+    repInversionLeni = 0
+    repInversionLenj = 0
+    repInversionLenm = 0
+    highestScore = -1000
     currentScore = 0
+    inversionLeni = 1
+    inversionEndi = 25
+
+    # iterate trough every element in given list (layer one 300 elements)
     for i in layerOne:
+        # keeps track of the inversion length of every executed inversion in layer one
+        inversionLeni += 1
+        if inversionLeni > inversionEndi:
+            inversionEndi -= 1
+            inversionLeni = 2
+        # prints results and returns if end result is found
         if i == endResult:
-            print("\n",i)
+            print("\n",i, inversionLeni)
             return i
-        templayerTwo = beamSearch(i)   
+        # fills a list with 300 result from the i'th list in layer one (300 times 300 is 90000 results)
+        templayerTwo = getAllInversions(i)
+        # sets the inversion length of layer two back at the beginning of a new iteration.
+        inversionLenj = 1
+        inversionEndj = 25
+        # iterate trough every result from temporary layer two (layer two)
         for j in templayerTwo:
+            # keeps track of the inversion length of every executed inversion in layer two
+            inversionLenj += 1
+            if inversionLenj > inversionEndj:
+                inversionEndj -= 1
+                inversionLenj = 2
+            # prints results and returns if end result is found
             if j == endResult:
-                print("\n",i, "\n",j)
+                print("\n",i,inversionLeni, "\n",j, inversionLenj)
                 return j
-            tempLayerThree = beamSearch(j)
+            # fills a list with 300 results from the j'th list in layer two (90000 times 300 is 27 million results)   
+            tempLayerThree = getAllInversions(j)
+            # sets the inversion length of layer three back at the beginning of a new iteration.
+            inversionLenm = 1
+            inversionEndm = 25
+            # iterate trough every result from temporary layer three (layer three)
             for m in tempLayerThree:
-                if m == endResult:
-                    print("\n",i, "\n",j,"\n",m)
-            
-                countk += 1
-                # saves the best out of 27000000 
-                currentScore = chunkFinderTwo(m)
+                # keeps track of the inversion length of every executed inversion in layer three
+                inversionLenm += 1
+                if inversionLenm > inversionEndm:
+                    inversionEndm -= 1
+                    inversionLenm = 2
+                # saves the best out of 27000000                   
+                currentScore = getScoreFromPosition(m)
                 if currentScore > highestScore:
                     highestScore = currentScore
                     repLayerOne = i
                     repLayerTwo = j
                     repLayerTrhee = m
+                    repInversionLeni = inversionLeni
+                    repInversionLenj = inversionLenj
+                    repInversionLenm = inversionLenm
                     
-
-    #print(tempLayerTwo)
-    #print(countk)
-    print("\n",repLayerOne,"\n",repLayerTwo, "\n", repLayerTrhee, "chosen out of 27 000 000")
+    print("\n",repLayerOne,repInversionLeni,"\n",repLayerTwo,repInversionLenj, "\n", repLayerTrhee,repInversionLenm, "chosen out of 27 000 000")
     print("current score is", highestScore)
     return repLayerTrhee
 
     
 alist = [23,1,2,11,24,22,19,6,10,7,25,20,5,8,18,12,13,14,15,16,17,21,3,4,9]
-#layerOne = beamSearch(elist)
-#layerThree = threeLayerSearch(layerOne)
-
 endResult = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
 result = []
 
+# searches three layers deep on every result until the end result is found.
 while result != endResult:
     if not result:
-        firstLayer = beamSearch(alist)
+        firstLayer = getAllInversions(alist)
     else:
-        firstLayer = beamSearch(result)
+        firstLayer = getAllInversions(result)
         
     result = threeLayerSearch(firstLayer)
    
-
-
-
-"""
-blist = [23, 1, 2, 11, 10, 7, 6, 19, 22, 24, 25, 20, 5, 4, 3, 21, 17, 16, 15, 14, 13, 12, 18, 8, 9]
-clist = [12, 13, 14, 15, 16, 17, 21, 3, 4, 5, 6, 7, 10, 11, 2, 1, 23, 22, 24, 25, 20, 19, 18, 8, 9]
-dlist = [25, 24, 22, 23, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 21, 20, 19, 18, 8, 9]
-elist = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 25, 24, 22, 23, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-"""
 
