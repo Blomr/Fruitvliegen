@@ -48,6 +48,7 @@ def sorting(genome):
 			melanoBest = prQueue2[0]
 			scoreBest = prQueue2Score[0]
 		else:
+			print len(prQueue1)
 			melanoBest = prQueue1[0]
 			scoreBest = prQueue1Score[0]
 			
@@ -107,6 +108,7 @@ def sorting(genome):
 					
 				# if not in archive, put in queue
 				if inArchive == False:
+					print melano
 					# determine score of new array
 					#score = swaps + elements
 					if gate2 == True:
